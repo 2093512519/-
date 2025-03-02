@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>爱心雨 + 文字雨 + 流星</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: black;
+            position: relative;
+        }
+        .heart, .text, .meteor {
+            position: absolute;
+            font-size: 20px;
+            pointer-events: none;
+            animation-timing-function: linear;
+        }
+        .heart {
+            color: pink;
+        }
+        .text {
+            font-size: 24px;
+        }
+        .meteor {
+            color: lightblue;
+            font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const emojis = [
+            "ʚ ɞ", "⌯'ᵕ'⌯", "ʚ✞～՞˶･֊･˶՞", "⌯ᕑᗢᓫ⌯ಣ", 
+            "՞˶˃ ᵕ ˂˶՞", "⌯>ᴗo⌯ಣ", "ʢᴗ.ᴗʡᶻ", "love", 
+            "⌯'ᵕ'⌯：^_−☆", "*💭·🍶ʚ˃ ᵕ ˂ ɞ", "ʚ✞ɞ", 
+            "◍˃ᵕ˂◍", "˃̶͈ ꇴ ˂̶͈", "ᐡ•͈ ·̭ •͈ᐡ", "꒦ິᯅ꒦ີ", 
+            "˙ᯅ·", "˶ᵒ ᵕ ˂˶", "ʢᴗ.ᴗʡᶻ･֊･", "꒦ິ^꒦ິ", 
+            "ʢ˶ᵒ ᵕ ˂˶ʡᶻ", "ᗜ ˰ ᗜ", "⑉･ᴗ･⑉", "^>៸៸៸៸<^", 
+            "՞˶･֊･˶՞", "李思怡"
+        ];
+
+        const colors = ["pink", "white", "lavender", "lightblue"];
+
+        function createHeart() {
+            let heart = document.createElement("div");
+            heart.innerHTML = "❤";
+            heart.className = "heart";
+            document.body.appendChild(heart);
+            heart.style.left = Math.random() * window.innerWidth + "px";
+            heart.style.top = "-30px";
+            heart.style.opacity = Math.random();
+            let duration = Math.random() * 3 + 2;
+            heart.style.animation = `fall ${duration}s linear`;
+            setTimeout(() => heart.remove(), duration * 1000);
+        }
+        
+        function createText() {
+            let text = document.createElement("div");
+            text.className = "text";
+            // 增加“李思怡”和“love”出现的频率
+            const frequentEmojis = ["李思怡", "love"];
+            const randomEmoji = Math.random() < 0.5 ? frequentEmojis[Math.floor(Math.random() * frequentEmojis.length)] : emojis[Math.floor(Math.random() * emojis.length)];
+            text.innerHTML = randomEmoji;
+            text.style.color = colors[Math.floor(Math.random() * colors.length)];
+            document.body.appendChild(text);
+            text.style.left = Math.random() * window.innerWidth + "px";
+            text.style.top = "-40px";
+            let duration = 3;
+            text.style.animation = `fall ${duration}s linear`;
+            setTimeout(() => text.remove(), duration * 1000);
+        }
+        
+        function createMeteor() {
+            let meteor = document.createElement("div");
+            meteor.innerHTML = "★";
+            meteor.className = "meteor";
+            document.body.appendChild(meteor);
+            let startX = Math.random() * window.innerWidth;
+            let startY = Math.random() * window.innerHeight * 0.5;
+            meteor.style.left = startX + "px";
+            meteor.style.top = startY + "px";
+            let duration = 1.5;
+            meteor.style.animation = `meteorMove ${duration}s linear`;
+            setTimeout(() => meteor.remove(), duration * 1000);
+        }
+        
+        setInterval(createHeart, 100);
+        setInterval(createText, 200); // 增加颜文字的密度
+        setInterval(createMeteor, 2000);
+        
+        document.head.insertAdjacentHTML("beforeend", `
+            <style>
+                @keyframes fall {
+                    from { transform: translateY(0); }
+                    to { transform: translateY(100vh); }
+                }
+                @keyframes meteorMove {
+                    from { transform: translate(0, 0); }
+                    to { transform: translate(100px, 100px); opacity: 0; }
+                }
+            </style>
+        `);
+    </script>
+</body>
+</html>
